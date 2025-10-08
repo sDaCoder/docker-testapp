@@ -1,0 +1,21 @@
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: suprava
+      MONGO_INITDB_ROOT_PASSWORD: supravasPass
+
+    volumes:
+      - /Users/sda/Desktop/dsa-practical:/data/db
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_OPTIONS_EDITORTHEME: "ambiance"
+      ME_CONFIG_BASICAUTH_USERNAME: suprava
+      ME_CONFIG_BASICAUTH_PASSWORD: supravasPass
+      ME_CONFIG_MONGODB_URL: mongodb://suprava:supravasPass@mongo:27017/
