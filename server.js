@@ -1,13 +1,14 @@
-const express = require("express");
-const app = express();
-const path = require("path");
-const MongoClient = require("mongodb").MongoClient;
+import express from "express"
+import { MongoClient } from "mongodb"
+import dotenv from "dotenv"
+dotenv.config();
 
 const PORT = 5050;
+const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const MONGO_URL = "mongodb://suprava:supravasPass@localhost:27017";
+const MONGO_URL = process.env.MONGO_URL;
 const client = new MongoClient(MONGO_URL);
 
 //GET all users
@@ -45,15 +46,16 @@ app.post("/addUser", async (req, res) => {
             data
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             "success": false,
             "message": "User not added",
-            error
+            error: error.message
         });
     }
 });
 
 
 app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
+    console.log(`server running on http://localhost:${PORT}`);
 });
